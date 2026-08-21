@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 
 const NOMINATIM_BASE = 'https://nominatim.openstreetmap.org';
-const OVERPASS_BASE = 'https://overpass-api.de/api/interpreter';
+const OVERPASS_BASE = 'https://overpass.kumi.systems/api/interpreter';
 const OSRM_BASE = 'https://router.project-osrm.org';
 
 const headers = {
