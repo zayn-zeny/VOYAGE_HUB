@@ -1,18 +1,18 @@
-# 🌍 VoyageHub — AI-Powered Travel Itinerary Platform
+# 🌍 VoyageHub — Next-Gen AI Travel Companion
 
-> Your AI Travel Companion — Plan, Explore, and Navigate the world with intelligent itineraries powered by Google Gemini AI.
+> Plan, explore, and navigate the world effortlessly. Let Google's Gemini 3.6 Flash AI build your dream itinerary in seconds!
 
 ![MERN](https://img.shields.io/badge/Stack-MERN-green) ![Gemini](https://img.shields.io/badge/AI-Google%20Gemini-blue) ![Tailwind](https://img.shields.io/badge/CSS-Tailwind%20v3-38bdf8) ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-## ✨ Features
+## ✨ Standout Features
 
-- **AI Itinerary Generation** — Multi-day trip plans with real place names, costs, and local tips
-- **Interactive Maps** — Explore destinations with OpenStreetMap, route planning, and nearby POI discovery
-- **Smart Dashboard** — Trip statistics, upcoming travels, and activity feed at a glance
-- **Multi-Step Trip Planner** — Guided 4-step wizard with destination search, preferences, and AI generation
-- **Real-Time Notifications** — Socket.IO-powered live updates
-- **Dark/Light Theme** — Seamless theme switching with system preference detection
-- **Responsive Design** — Mobile-first with sidebar (desktop) and bottom nav (mobile)
+- **🧠 Smart AI Itinerary Generation:** Powered by Google's latest **Gemini 3.6 Flash** model. Instantly creates realistic, day-by-day travel plans customized to your destination, budget, and personal interests, complete with local tips and cost estimates.
+- **🗺️ Interactive Global Exploration:** A robust mapping engine built with **Leaflet**, OpenStreetMap, and OSRM routing. Search for any city and discover nearby attractions, restaurants, and hotels on an interactive canvas.
+- **🛡️ Bulletproof Custom API Architecture:** Built-in proxy fallback mirrors for geolocation and POI data to seamlessly bypass strict browser CORS policies and ad-blockers, ensuring 100% uptime for mapping features.
+- **⚡ Real-Time Live Updates:** Utilizing **Socket.IO** to push live notifications to your device the moment your AI itinerary is ready.
+- **📊 Smart Dashboard & Analytics:** Track your upcoming trips, view global travel statistics, and monitor your personal activity feed in one beautiful view.
+- **🌗 Stunning Modern UI:** Built with React, Tailwind CSS v3, and Framer Motion. Fully responsive with smooth micro-animations, glassmorphism, and automatic dark/light theme switching.
+- **🔒 Secure Authentication:** Complete JWT dual-token architecture (Access + Refresh tokens) to securely protect user profiles and saved itineraries on MongoDB Atlas.
 
 ## 🛠 Tech Stack
 
@@ -23,10 +23,10 @@
 - Socket.IO Client · Lucide React · React Hot Toast
 
 ### Backend
-- Node.js + Express.js · MongoDB + Mongoose
+- Node.js + Express.js · MongoDB Atlas + Mongoose
 - JWT Dual-Token Auth · bcryptjs (14 rounds)
-- Socket.IO · Winston Logger · Google Gemini AI SDK
-- Helmet · CORS · Rate Limiting
+- Socket.IO · Winston Logger · Google Generative AI SDK
+- Custom API Proxy Mirrors · Helmet · CORS · Rate Limiting
 
 ## 🚀 Getting Started
 
@@ -109,7 +109,7 @@ voyagehub/
 │
 ├── server/
 │   ├── controllers/            # Route handlers
-│   ├── middleware/              # Auth, rate limiting, validation, logging
+│   ├── middleware/             # Auth, rate limiting, validation, logging
 │   ├── models/                 # Mongoose schemas
 │   ├── routes/                 # Express route definitions
 │   ├── services/               # Gemini AI, Map service wrappers
