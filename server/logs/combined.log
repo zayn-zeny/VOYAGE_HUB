@@ -163,3 +163,14 @@
 {"level":"info","message":"Environment: development","service":"voyagehub-api","timestamp":"2026-06-10 09:43:10"}
 {"level":"info","message":"Socket connected: FegZpmfDOCth0IU0AAAB","service":"voyagehub-api","timestamp":"2026-06-10 09:43:10"}
 {"level":"info","message":"User 6a28df9d593f7eb7c3f8fabb joined room","service":"voyagehub-api","timestamp":"2026-06-10 09:43:10"}
+{"level":"info","message":"Connected to MongoDB","service":"voyagehub-api","timestamp":"2026-06-10 11:31:05"}
+{"level":"info","message":"Server running on port 5000","service":"voyagehub-api","timestamp":"2026-06-10 11:31:05"}
+{"level":"info","message":"Environment: development","service":"voyagehub-api","timestamp":"2026-06-10 11:31:05"}
+{"level":"info","message":"Socket connected: AFoTXuxCqxg7LOGkAAAB","service":"voyagehub-api","timestamp":"2026-06-10 11:31:08"}
+{"level":"info","message":"User 6a28df9d593f7eb7c3f8fabb joined room","service":"voyagehub-api","timestamp":"2026-06-10 11:31:08"}
+{"level":"info","message":"Connected to MongoDB","service":"voyagehub-api","timestamp":"2026-06-10 12:39:01"}
+{"level":"info","message":"Server running on port 5000","service":"voyagehub-api","timestamp":"2026-06-10 12:39:02"}
+{"level":"info","message":"Environment: development","service":"voyagehub-api","timestamp":"2026-06-10 12:39:02"}
+{"level":"info","message":"Socket connected: fIMjYQqb9guivJslAAAB","service":"voyagehub-api","timestamp":"2026-06-10 12:39:05"}
+{"level":"info","message":"User 6a28df9d593f7eb7c3f8fabb joined room","service":"voyagehub-api","timestamp":"2026-06-10 12:39:05"}
+{"level":"error","message":"MongoDB connection error:","service":"voyagehub-api","timestamp":"2026-08-21 21:22:40"}
