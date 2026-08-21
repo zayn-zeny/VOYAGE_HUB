@@ -20,6 +20,8 @@ const mapRoutes = require('./routes/maps');
 const userRoutes = require('./routes/users');
 
 const app = express();
+// Enable trust proxy for Render and express-rate-limit
+app.set('trust proxy', 1);
 const server = http.createServer(app);
 
 // Socket.IO
