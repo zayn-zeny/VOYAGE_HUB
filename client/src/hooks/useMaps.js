@@ -2,34 +2,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../lib/api';
 import useAuth from './useAuth';
 import toast from 'react-hot-toast';
-import axios from 'axios';
-
-const NOMINATIM_BASE = 'https://nominatim.openstreetmap.org';
-const OVERPASS_BASE = 'https://overpass.kumi.systems/api/interpreter';
-const OSRM_BASE = 'https://router.project-osrm.org';
-
-const headers = {
-  'Accept-Language': 'en',
-};
 
 export function useGeocode(query, options = {}) {
   return useQuery({
     queryKey: ['geocode', query],
     queryFn: async () => {
       if (!query || query.length < 3) return [];
-      const { data } = await axios.get(`${NOMINATIM_BASE}/search`, {
-        params: { q: query, format: 'json', addressdetails: 1, limit: 5 },
-        headers,
-      });
-      return data.map((item) => ({
-        name: item.display_name,
-        lat: parseFloat(item.lat),
-        lng: parseFloat(item.lon),
-        type: item.type,
-        country: item.address?.country || '',
-        city: item.address?.city || item.address?.town || item.address?.village || '',
-        importance: item.importance,
-      }));
+      const { data } = await api.get('/maps/geocode', { params: { q: query } });
+      return data.results;
     },
     enabled: !!query && query.length >= 3,
     staleTime: 1000 * 60 * 60, // Cache geocode results for an hour
@@ -43,45 +23,10 @@ export function useNearby(coords, category, radius, options = {}) {
   return useQuery({
     queryKey: ['nearby', lat, lng, category, radius],
     queryFn: async () => {
-      const categoryMap = {
-        food: '["amenity"~"restaurant|cafe|fast_food|bar"]',
-        attractions: '["tourism"~"attraction|museum|gallery|viewpoint"]',
-        parks: '["leisure"~"park|garden|playground"]',
-        hotels: '["tourism"~"hotel|hostel|motel|guest_house"]',
-        transport: '["amenity"~"bus_station|taxi"]',
-        tourism: '["tourism"]',
-      };
-      const osmFilter = categoryMap[category] || categoryMap.tourism;
-      
-      const queryStr = `[out:json][timeout:15];
-      (
-        node${osmFilter}(around:${radius},${lat},${lng});
-        way${osmFilter}(around:${radius},${lat},${lng});
-      );
-      out center body 20;`;
-      
-      const { data } = await axios.get(OVERPASS_BASE, {
-        params: { data: queryStr }
+      const { data } = await api.get('/maps/nearby', {
+        params: { lat, lng, category, radius },
       });
-      
-      if (!data.elements) return [];
-      
-      return data.elements
-        .filter((el) => el.tags?.name)
-        .map((el) => ({
-          id: el.id,
-          name: el.tags.name,
-          lat: el.lat || el.center?.lat,
-          lng: el.lon || el.center?.lon,
-          type: el.tags.tourism || el.tags.amenity || el.tags.leisure || 'place',
-          category,
-          tags: {
-            cuisine: el.tags.cuisine || '',
-            website: el.tags.website || '',
-            phone: el.tags.phone || '',
-            openingHours: el.tags.opening_hours || '',
-          },
-        }));
+      return data.places;
     },
     enabled: !!lat && !!lng,
     staleTime: 1000 * 60 * 10, // Cache for 10 minutes
@@ -95,29 +40,10 @@ export function useRoute(fromCoords, toCoords, options = {}) {
   return useQuery({
     queryKey: ['route', fromStr, toStr],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${OSRM_BASE}/route/v1/driving/${fromCoords.lng},${fromCoords.lat};${toCoords.lng},${toCoords.lat}`,
-        {
-          params: { overview: 'full', geometries: 'geojson', steps: true },
-        }
-      );
-      
-      if (!data.routes || data.routes.length === 0) {
-        throw new Error('No route found');
-      }
-
-      const route = data.routes[0];
-      return {
-        distance: route.distance, // meters
-        duration: route.duration, // seconds
-        geometry: route.geometry,
-        steps: route.legs[0]?.steps?.map((step) => ({
-          instruction: step.maneuver.type,
-          distance: step.distance,
-          duration: step.duration,
-          name: step.name,
-        })),
-      };
+      const { data } = await api.get('/maps/route', {
+        params: { from: fromStr, to: toStr },
+      });
+      return data.route;
     },
     enabled: !!fromStr && !!toStr,
     staleTime: 1000 * 60 * 30, // Cache routes for 30 minutes
@@ -135,7 +61,7 @@ export function useSaveLocation() {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['profile'] });
-      updateUser((prev) => (prev ? { ...prev, savedLocations: data.locations } : null));
+      updateUser((prev) => prev ? { ...prev, savedLocations: data.locations } : null);
       toast.success('Location saved to your dashboard!');
     },
     onError: () => {
@@ -154,7 +80,7 @@ export function useDeleteLocation() {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['profile'] });
-      updateUser((prev) => (prev ? { ...prev, savedLocations: data.locations } : null));
+      updateUser((prev) => prev ? { ...prev, savedLocations: data.locations } : null);
       toast.success('Location removed');
     },
     onError: () => {

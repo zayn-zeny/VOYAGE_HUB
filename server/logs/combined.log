@@ -176,3 +176,5 @@
 {"level":"error","message":"MongoDB connection error:","service":"voyagehub-api","timestamp":"2026-08-21 21:22:40"}
 {"level":"error","message":"MongoDB connection error:","service":"voyagehub-api","timestamp":"2026-08-21 21:26:21"}
 {"level":"error","message":"MongoDB connection error:","service":"voyagehub-api","timestamp":"2026-08-21 21:55:58"}
+{"level":"error","message":"MongoDB connection error:","service":"voyagehub-api","timestamp":"2026-08-21 22:34:54"}
+{"level":"error","message":"MongoDB connection error:","service":"voyagehub-api","timestamp":"2026-08-21 22:39:49"}

@@ -2,11 +2,11 @@ const axios = require('axios');
 const logger = require('../middleware/logger');
 
 const NOMINATIM_BASE = 'https://nominatim.openstreetmap.org';
-const OVERPASS_BASE = 'https://overpass-api.de/api/interpreter';
+const OVERPASS_BASE = 'https://maps.mail.ru/osm/tools/overpass/api/interpreter';
 const OSRM_BASE = 'https://router.project-osrm.org';
 
 const headers = {
-  'User-Agent': 'VoyageHub/1.0 (travel-planner-app)',
+  'User-Agent': 'VoyageHub/1.0 (travel planner contact@example.com)',
   'Accept-Language': 'en',
 };
 
@@ -70,7 +70,7 @@ const getNearbyPlaces = async (lat, lng, category = 'tourism', radius = 2000) =>
     attractions: '["tourism"~"attraction|museum|gallery|viewpoint"]',
     parks: '["leisure"~"park|garden|playground"]',
     hotels: '["tourism"~"hotel|hostel|motel|guest_house"]',
-    transport: '["amenity"~"bus_station|taxi"]["railway"~"station"]',
+    transport: '["amenity"~"bus_station|taxi"]',
     tourism: '["tourism"]',
   };
 
