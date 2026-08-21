@@ -60,8 +60,8 @@ export function useNearby(coords, category, radius, options = {}) {
       );
       out center body 20;`;
       
-      const { data } = await axios.post(OVERPASS_BASE, `data=${encodeURIComponent(queryStr)}`, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      const { data } = await axios.get(OVERPASS_BASE, {
+        params: { data: queryStr }
       });
       
       if (!data.elements) return [];
