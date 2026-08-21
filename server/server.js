@@ -53,6 +53,7 @@ io.on('connection', (socket) => {
 // Middleware
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
+  contentSecurityPolicy: false,
 }));
 app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:5173',
