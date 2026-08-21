@@ -101,7 +101,7 @@ const parseAIResponse = (text) => {
 
 const generateItinerary = async (tripData, maxRetries = 3) => {
   const prompt = buildPrompt(tripData);
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-3.6-flash' });
 
   let lastError = null;
 
@@ -132,7 +132,7 @@ const generateItinerary = async (tripData, maxRetries = 3) => {
 };
 
 const generateSuggestions = async (destination) => {
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-3.6-flash' });
 
   const prompt = `Suggest 5 must-visit attractions and 3 local food recommendations for ${destination}. 
 Return ONLY a valid JSON object with this structure:
