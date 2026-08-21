@@ -48,7 +48,7 @@ export function useNearby(coords, category, radius, options = {}) {
         attractions: '["tourism"~"attraction|museum|gallery|viewpoint"]',
         parks: '["leisure"~"park|garden|playground"]',
         hotels: '["tourism"~"hotel|hostel|motel|guest_house"]',
-        transport: '["amenity"~"bus_station|taxi"]["railway"~"station"]',
+        transport: '["amenity"~"bus_station|taxi"]',
         tourism: '["tourism"]',
       };
       const osmFilter = categoryMap[category] || categoryMap.tourism;
@@ -61,7 +61,7 @@ export function useNearby(coords, category, radius, options = {}) {
       out center body 20;`;
       
       const { data } = await axios.post(OVERPASS_BASE, `data=${encodeURIComponent(queryStr)}`, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded', ...headers },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       });
       
       if (!data.elements) return [];

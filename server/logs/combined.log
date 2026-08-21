@@ -175,3 +175,4 @@
 {"level":"info","message":"User 6a28df9d593f7eb7c3f8fabb joined room","service":"voyagehub-api","timestamp":"2026-06-10 12:39:05"}
 {"level":"error","message":"MongoDB connection error:","service":"voyagehub-api","timestamp":"2026-08-21 21:22:40"}
 {"level":"error","message":"MongoDB connection error:","service":"voyagehub-api","timestamp":"2026-08-21 21:26:21"}
+{"level":"error","message":"MongoDB connection error:","service":"voyagehub-api","timestamp":"2026-08-21 21:55:58"}
