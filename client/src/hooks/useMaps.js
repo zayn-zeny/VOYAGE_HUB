@@ -3,16 +3,36 @@ import api from '../lib/api';
 import useAuth from './useAuth';
 import toast from 'react-hot-toast';
 
+import axios from 'axios';
+
+const NOMINATIM_BASE = 'https://nominatim.openstreetmap.org';
+const OSRM_BASE = 'https://router.project-osrm.org';
+
+const headers = {
+  'Accept-Language': 'en',
+};
+
 export function useGeocode(query, options = {}) {
   return useQuery({
     queryKey: ['geocode', query],
     queryFn: async () => {
       if (!query || query.length < 3) return [];
-      const { data } = await api.get('/maps/geocode', { params: { q: query } });
-      return data.results;
+      const { data } = await axios.get(`${NOMINATIM_BASE}/search`, {
+        params: { q: query, format: 'json', addressdetails: 1, limit: 5 },
+        headers,
+      });
+      return data.map((item) => ({
+        name: item.display_name,
+        lat: parseFloat(item.lat),
+        lng: parseFloat(item.lon),
+        type: item.type,
+        country: item.address?.country || '',
+        city: item.address?.city || item.address?.town || item.address?.village || '',
+        importance: item.importance,
+      }));
     },
     enabled: !!query && query.length >= 3,
-    staleTime: 1000 * 60 * 60, // Cache geocode results for an hour
+    staleTime: 1000 * 60 * 60,
     ...options,
   });
 }
@@ -29,7 +49,7 @@ export function useNearby(coords, category, radius, options = {}) {
       return data.places;
     },
     enabled: !!lat && !!lng,
-    staleTime: 1000 * 60 * 10, // Cache for 10 minutes
+    staleTime: 1000 * 60 * 10,
     ...options,
   });
 }
@@ -40,13 +60,32 @@ export function useRoute(fromCoords, toCoords, options = {}) {
   return useQuery({
     queryKey: ['route', fromStr, toStr],
     queryFn: async () => {
-      const { data } = await api.get('/maps/route', {
-        params: { from: fromStr, to: toStr },
-      });
-      return data.route;
+      const { data } = await axios.get(
+        `${OSRM_BASE}/route/v1/driving/${fromCoords.lng},${fromCoords.lat};${toCoords.lng},${toCoords.lat}`,
+        {
+          params: { overview: 'full', geometries: 'geojson', steps: true },
+        }
+      );
+      
+      if (!data.routes || data.routes.length === 0) {
+        throw new Error('No route found');
+      }
+
+      const route = data.routes[0];
+      return {
+        distance: route.distance,
+        duration: route.duration,
+        geometry: route.geometry,
+        steps: route.legs[0]?.steps?.map((step) => ({
+          instruction: step.maneuver.type,
+          distance: step.distance,
+          duration: step.duration,
+          name: step.name,
+        })),
+      };
     },
     enabled: !!fromStr && !!toStr,
-    staleTime: 1000 * 60 * 30, // Cache routes for 30 minutes
+    staleTime: 1000 * 60 * 30,
     ...options,
   });
 }
